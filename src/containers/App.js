@@ -1,40 +1,93 @@
-import React, { Component } from 'react';
-import { Router } from 'react-router-dom';
-import history from '../routes/History';
-import Routes from '../routes/Routes';
-import { connect } from 'react-redux';
-import { IntlProvider } from 'react-intl';
-import messages from '../assets/Local/messages';
-import Navbar from "../containers/Navbar/Navbar";
+import React, { Suspense, PureComponent } from "react";
+import { connect } from "react-redux";
+import { Router, Switch, Redirect } from "react-router-dom";
+import {
+  EuiPage,
+  EuiPageBody,
+  EuiPageHeader,
+  EuiPageHeaderSection,
+  EuiPageSideBar,
+  EuiTitle,
+} from "@elastic/eui";
+import { createBrowserHistory } from "history";
+
+// import PropTypes from "prop-types";
+
 // ========== General styles ==========
-import './App.scss';
+import "@elastic/eui/dist/eui_theme_light.css";
 
-class App extends Component {
+import "./App.scss";
+import Sidebar from "./Sidebar";
 
-  render() {     
-    const { lang } = this.props;
-    console.log(lang);
-    
+const routeList = [
+  {
+    path: "/",
+    name: "Home",
+    component: React.lazy(() => import("../containers/Home")),
+    exact: true,
+  },
+];
+
+function renderRoute(route) {
+  return <route.component path={route.path} exact={route.exact} />;
+}
+
+function renderPrivateRoutes() {
+  return (
+    <EuiPage>
+      <EuiPageSideBar>
+        <h1>Sidebar</h1>
+
+        <Sidebar />
+      </EuiPageSideBar>
+      <EuiPageBody component="div">
+        <EuiPageHeader>
+          <EuiPageHeaderSection>
+            <EuiTitle size="l">
+              <h1>Page title</h1>
+            </EuiTitle>
+          </EuiPageHeaderSection>
+          <EuiPageHeaderSection>Page abilities</EuiPageHeaderSection>
+        </EuiPageHeader>
+        {routeList.map(renderRoute)}
+      </EuiPageBody>
+    </EuiPage>
+  );
+}
+
+// function renderLoginRoute() {
+//   const LoginPage = React.lazy(() => import("../containers/Login"));
+//   return <LoginPage path="/" exact />;
+// }
+
+class App extends PureComponent {
+  render() {
+    // uncomment if wants to separate auth path
+    // const { isAuthenticated } = this.props;
+
     return (
-      <IntlProvider
-        locale={lang}
-        messages={messages[lang]}>
-        <div className={lang === 'ar' ? 'rtl' : 'ltr'} dir={lang === 'ar' ? 'rtl' : 'ltr'}>
-          <Router history={history}>
-            <Navbar />
-            {Routes}   
-          </Router>
-        </div>
-      </IntlProvider>
+      <Suspense fallback="loading...">
+        <Router history={createBrowserHistory()}>
+          <Switch>
+            {/* {isAuthenticated ? routeList.map(renderRoute) : renderLoginRoute()} */}
+            {/* {routeList.map(renderRoute)} */}
+            {renderPrivateRoutes()}
+            <Redirect from="*" to="/" />
+          </Switch>
+        </Router>
+      </Suspense>
     );
   }
 }
 
-const mapStateToProps = state => {
-  console.log(state);
+App.propTypes = {
+  // isAuthenticated: PropTypes.bool.isRequired,
+};
+
+const mapStateToProps = (state) => {
   return {
-    lang: state.locale.lang
-  }
-}
+    isAuthenticated: state.User.isAuthenticated,
+  };
+};
 
 export default connect(mapStateToProps)(App);

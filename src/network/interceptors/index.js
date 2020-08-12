@@ -1,5 +1,5 @@
   export const isHandlerEnabled = (config = {}) => {
-  return config.hasOwnProperty("handlerEnabled") && !config.handlerEnabled ? false : true;
+  return !(config.hasOwnProperty("handlerEnabled") && !config.handlerEnabled);
 };
 
 export const requestHandler = request => {

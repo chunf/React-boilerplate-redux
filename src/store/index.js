@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import reducers from './reducers';
 import createSagaMiddleware from 'redux-saga';
+import reducers from './reducers';
 // import { watchAll } from '../sagas';
 // ======== Compose redux dev tool with applyMiddleware ========
 const saga = createSagaMiddleware();
