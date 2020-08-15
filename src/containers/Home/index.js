@@ -11,7 +11,7 @@ import {
 } from "@elastic/eui";
 
 export default () => (
-  <EuiPageContent>
+  <>
     <EuiPageContentHeader>
       <EuiPageContentHeaderSection>
         <EuiTitle>
@@ -20,5 +20,5 @@ export default () => (
       </EuiPageContentHeaderSection>
     </EuiPageContentHeader>
     <EuiPageContentBody>Content body</EuiPageContentBody>
-  </EuiPageContent>
+  </>
 );

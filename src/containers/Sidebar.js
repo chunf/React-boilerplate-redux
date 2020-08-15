@@ -48,6 +48,20 @@ class Sidebar extends Component {
     };
   }
 
+  convertRoutestoMenu(routes) {
+    return routes.map((route) => {
+      let items = [];
+      if (route.children) {
+        items = this.convertRoutestoMenu(route.children);
+      }
+
+      return this.createItem(route.name, {
+        icon: route.icon,
+        items,
+      });
+    });
+  }
+
   render() {
     const sideNav = [
       this.createItem("Elasticsearch", {
@@ -93,14 +107,14 @@ class Sidebar extends Component {
     ];
 
     const { isSideNavOpenOnMobile } = this.state;
+    const { routeList } = this.props;
 
     return (
       <EuiSideNav
-        mobileTitle="Navigate within $APP_NAME"
+        mobileTitle="Menu"
         toggleOpenOnMobile={this.toggleOpenOnMobile}
         isOpenOnMobile={isSideNavOpenOnMobile}
-        items={sideNav}
-        style={{ width: 192 }}
+        items={this.convertRoutestoMenu(routeList)}
       />
     );
   }
