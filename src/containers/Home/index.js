@@ -1,8 +1,8 @@
 import React from "react";
 
 import {
-  EuiPage,
-  EuiPageBody,
+  EuiPageHeader,
+  EuiPageHeaderSection,
   EuiPageContent,
   EuiPageContentBody,
   EuiPageContentHeader,
@@ -12,13 +12,23 @@ import {
 
 export default () => (
   <>
-    <EuiPageContentHeader>
-      <EuiPageContentHeaderSection>
-        <EuiTitle>
-          <h2>Content title</h2>
+    <EuiPageHeader>
+      <EuiPageHeaderSection>
+        <EuiTitle size="l">
+          <h1>Page title</h1>
         </EuiTitle>
-      </EuiPageContentHeaderSection>
-    </EuiPageContentHeader>
-    <EuiPageContentBody>Content body</EuiPageContentBody>
+      </EuiPageHeaderSection>
+      <EuiPageHeaderSection>Page abilities</EuiPageHeaderSection>
+    </EuiPageHeader>
+    <EuiPageContent>
+      <EuiPageContentHeader>
+        <EuiPageContentHeaderSection>
+          <EuiTitle>
+            <h2>Content title</h2>
+          </EuiTitle>
+        </EuiPageContentHeaderSection>
+      </EuiPageContentHeader>
+      <EuiPageContentBody>Content body</EuiPageContentBody>
+    </EuiPageContent>
   </>
 );
